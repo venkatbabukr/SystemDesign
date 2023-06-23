@@ -1,0 +1,27 @@
+plugins {
+	id 'java'
+	id 'application'
+}
+
+group = 'venkat.systemdesign'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+   javaMainClass = "venkat.systemdesign.ratelimiter.application.DemoRateLimiter"
+}
+
+application {
+    mainClassName = javaMainClass
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
