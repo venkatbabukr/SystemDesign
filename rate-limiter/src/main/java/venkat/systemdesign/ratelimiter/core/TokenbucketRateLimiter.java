@@ -23,11 +23,11 @@ public class TokenbucketRateLimiter implements RateLimiter {
 	@Override
 	public synchronized boolean grantRequest(ApiRequest req) {
 		replenish();
-		if (currentCapacity > 0) {
+		boolean grant = currentCapacity > 0;
+		if (grant) {
 			currentCapacity--;
-			return true;
 		}
-		return false;
+		return grant;
 	}
 
 	private void replenish() {
