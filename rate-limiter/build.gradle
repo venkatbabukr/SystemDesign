@@ -15,7 +15,7 @@ repositories {
 }
 
 ext {
-   javaMainClass = "venkat.systemdesign.ratelimiter.application.DemoRateLimiter"
+   javaMainClass = "venkat.systemdesign.rlsdemo.tokenbucket.DemoRateLimiter"
 }
 
 application {
