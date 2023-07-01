@@ -1,18 +1,19 @@
-package venkat.systemdesign.ratelimiter.core;
+package venkat.systemdesign.ratelimiter.simplerls;
 
 import java.time.Duration;
 import java.time.Instant;
 
-import venkat.systemdesign.ratelimiter.application.ApiRequest;
+import venkat.systemdesign.ratelimiter.RateLimiter;
+import venkat.systemdesign.ratelimiter.model.ApiRequest;
 
 public class TokenbucketRateLimiter implements RateLimiter {
 	
-	public int replenishRate;
-	public int currentCapacity;
+	public long replenishRate;
+	public long currentCapacity;
 	public Instant lastReplenishTime;
-	public int burstCapacity;
+	public long burstCapacity;
 	
-	public TokenbucketRateLimiter(int repRate, int burstCapacity) {
+	public TokenbucketRateLimiter(long repRate, long burstCapacity) {
 		this.replenishRate = repRate;
 		this.burstCapacity = burstCapacity;
 		
@@ -38,8 +39,8 @@ public class TokenbucketRateLimiter implements RateLimiter {
 	}
 
 	@Override
-	public synchronized void finishRequest() {
-		this.currentCapacity++;
+	public synchronized void finishRequest(ApiRequest req) {
+		currentCapacity = Math.min(currentCapacity + 1, burstCapacity);
 	}
 
 }

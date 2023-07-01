@@ -1,21 +1,25 @@
-package venkat.systemdesign.ratelimiter.core.filters;
+package venkat.systemdesign.ratelimiter.rlfilters;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import venkat.systemdesign.ratelimiter.application.ApiRequest;
-import venkat.systemdesign.ratelimiter.application.ApiResponse;
-import venkat.systemdesign.ratelimiter.core.RateLimiter;
-import venkat.systemdesign.ratelimiter.core.RateLimiterConfig;
-import venkat.systemdesign.ratelimiter.core.TokenbucketRateLimiter;
+import venkat.systemdesign.ratelimiter.RateLimiter;
+import venkat.systemdesign.ratelimiter.RateLimiterFactory;
+import venkat.systemdesign.ratelimiter.model.ApiRequest;
+import venkat.systemdesign.ratelimiter.model.ApiResponse;
 
 public class RateLimitFilter {
 
 	private Map<Long, RateLimiter> userRateLimiter;
 	
-	public RateLimitFilter() {
+	private RateLimiterFactory<? extends RateLimiter> rlFactory;
+	
+	public RateLimitFilter(RateLimiterFactory<? extends RateLimiter> rlf) {
+		if (rlf == null)
+			throw new IllegalArgumentException("Rate limiter factory required!");
 		this.userRateLimiter = new HashMap<>();
+		this.rlFactory = rlf;
 	}
 	
 	public ApiResponse processRequest(Long userId, ApiRequest req) {
@@ -30,7 +34,7 @@ public class RateLimitFilter {
 				System.out.println("Processing request (sleep) interrupted...");
 				e.printStackTrace();
 			}
-			userRL.finishRequest();
+			userRL.finishRequest(req);
 		}
 		return new ApiResponse(req, requestGranted);
 	}
@@ -41,7 +45,7 @@ public class RateLimitFilter {
 			synchronized(this.userRateLimiter) {
 				rl = this.userRateLimiter.get(userId);
 				if (rl == null) {
-					rl = new TokenbucketRateLimiter(RateLimiterConfig.TOKEN_REPLENISH_RATE, RateLimiterConfig.BURST_CAPACITY);
+					rl = rlFactory.newRateLimiter();
 					this.userRateLimiter.put(userId, rl);
 				}
 			}

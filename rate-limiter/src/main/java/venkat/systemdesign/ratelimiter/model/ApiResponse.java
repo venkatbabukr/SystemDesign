@@ -1,4 +1,4 @@
-package venkat.systemdesign.ratelimiter.application;
+package venkat.systemdesign.ratelimiter.model;
 
 public class ApiResponse {
 	

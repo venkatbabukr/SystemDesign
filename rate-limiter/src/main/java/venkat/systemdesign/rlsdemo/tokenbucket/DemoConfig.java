@@ -1,8 +1,8 @@
-package venkat.systemdesign.ratelimiter.core;
+package venkat.systemdesign.rlsdemo.tokenbucket;
 
-public class RateLimiterConfig {
+public class DemoConfig {
 	
-	private RateLimiterConfig() { }
+	private DemoConfig() { }
 
 	public static final Integer TOKEN_REPLENISH_RATE = 5;
 
