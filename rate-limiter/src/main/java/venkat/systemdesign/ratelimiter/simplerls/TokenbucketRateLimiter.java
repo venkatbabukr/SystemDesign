@@ -34,8 +34,10 @@ public class TokenbucketRateLimiter implements RateLimiter {
 	private void replenish() {
 		Instant currentTime = Instant.now();
 		int numSeconds = (int) Duration.between(lastReplenishTime, currentTime).toSeconds();
-		currentCapacity = Math.min(currentCapacity + numSeconds * replenishRate, burstCapacity);
-		lastReplenishTime = currentTime;
+		if (numSeconds > 0) {
+			currentCapacity = Math.min(currentCapacity + numSeconds * replenishRate, burstCapacity);
+			lastReplenishTime = currentTime;
+		}
 	}
 
 	@Override
