@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import venkat.systemdesign.ratelimiter.RateLimiter;
-import venkat.systemdesign.ratelimiter.model.ApiRequest;
+import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
 
 public class TokenbucketRateLimiter implements RateLimiter {
 	

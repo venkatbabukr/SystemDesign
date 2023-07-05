@@ -1,6 +1,6 @@
 package venkat.systemdesign.ratelimiter;
 
-import venkat.systemdesign.ratelimiter.model.ApiRequest;
+import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
 
 public interface RateLimiter {
 	

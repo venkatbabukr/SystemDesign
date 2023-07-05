@@ -1,7 +1,7 @@
 package venkat.systemdesign.ratelimiter.simplerls;
 
 import venkat.systemdesign.ratelimiter.RateLimiter;
-import venkat.systemdesign.ratelimiter.model.ApiRequest;
+import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
 
 public class LeakyBucketRateLimiter implements RateLimiter {
 	

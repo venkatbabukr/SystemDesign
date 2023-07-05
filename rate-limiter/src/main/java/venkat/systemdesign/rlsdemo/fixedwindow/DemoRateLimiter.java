@@ -1,10 +1,11 @@
 package venkat.systemdesign.rlsdemo.fixedwindow;
 
+import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import venkat.systemdesign.ratelimiter.model.ApiRequest;
-import venkat.systemdesign.ratelimiter.model.ApiResponse;
+import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
+import venkat.systemdesign.ratelimiter.model.export.ApiResponse;
 import venkat.systemdesign.ratelimiter.rlfactories.WindowRateLimiterFactory;
 import venkat.systemdesign.ratelimiter.rlfilters.RateLimitFilter;
 import venkat.systemdesign.ratelimiter.windowrls.FixedWindowRateLimiter;
@@ -26,7 +27,14 @@ public class DemoRateLimiter {
 			for (Long i = 1L; i <= MAX_USER_REQUESTS; i++) {
 				final Long requestId = i;
 				threadExecutors.submit(() -> {
-					ApiResponse response = testRLFilter.processRequest(userId, new ApiRequest(requestId));
+					ApiResponse response = testRLFilter.processRequest(userId, new ApiRequest(requestId), (req, resp) -> {
+						try {
+							Thread.sleep(Duration.ofSeconds(2).toMillis());
+						} catch (InterruptedException e) {
+						}
+						resp.signalSuccess();
+						return resp;
+					});
 					System.out.format("{userId: %s, response: %s}%n", userId, response);
 				});
 			}

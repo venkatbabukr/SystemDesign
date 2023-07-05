@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import venkat.systemdesign.ratelimiter.RateLimiter;
-import venkat.systemdesign.ratelimiter.model.ApiRequest;
+import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
 import venkat.systemdesign.ratelimiter.model.windowrls.WindowSize;
 
 public class SlidingWindowRateLimiter implements RateLimiter {

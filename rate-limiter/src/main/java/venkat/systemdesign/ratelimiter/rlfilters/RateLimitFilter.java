@@ -6,8 +6,9 @@ import java.util.Map;
 
 import venkat.systemdesign.ratelimiter.RateLimiter;
 import venkat.systemdesign.ratelimiter.RateLimiterFactory;
-import venkat.systemdesign.ratelimiter.model.ApiRequest;
-import venkat.systemdesign.ratelimiter.model.ApiResponse;
+import venkat.systemdesign.ratelimiter.model.export.ApiProcessor;
+import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
+import venkat.systemdesign.ratelimiter.model.export.ApiResponse;
 
 public class RateLimitFilter {
 
@@ -22,21 +23,14 @@ public class RateLimitFilter {
 		this.rlFactory = rlf;
 	}
 	
-	public ApiResponse processRequest(Long userId, ApiRequest req) {
+	public ApiResponse processRequest(Long userId, ApiRequest req, ApiProcessor proc) {
 		RateLimiter userRL = getUserRateLimiter(userId);
-		boolean requestGranted = userRL.grantRequest(req);
-		if (requestGranted) {
-			// If we implement this as part of filter chain, we'll simply say
-			// chain.doNext(req);
-			try {
-				Thread.sleep(Duration.ofSeconds(2).toMillis());
-			} catch (InterruptedException e) {
-				System.out.println("Processing request (sleep) interrupted...");
-				e.printStackTrace();
-			}
+		ApiResponse resp = new ApiResponse(req);
+		if (userRL.grantRequest(req)) {
+			proc.process(req, resp);
 			userRL.finishRequest(req);
 		}
-		return new ApiResponse(req, requestGranted);
+		return resp;
 	}
 
 	private RateLimiter getUserRateLimiter(Long userId) {

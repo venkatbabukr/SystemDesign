@@ -1,4 +1,4 @@
-package venkat.systemdesign.ratelimiter.model;
+package venkat.systemdesign.ratelimiter.model.export;
 
 import java.time.Instant;
 import java.time.temporal.Temporal;
