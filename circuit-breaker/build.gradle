@@ -1,0 +1,32 @@
+plugins {
+  id 'java'
+  id 'application'
+}
+
+sourceCompatibility = 1.17
+targetCompatibility = 1.17
+
+repositories {
+  mavenCentral()
+}
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
+dependencies {
+
+  compileOnly 'org.projectlombok:lombok:latest.release'
+  annotationProcessor 'org.projectlombok:lombok:latest.release'
+
+  implementation 'org.slf4j:slf4j-api:latest.release'
+  implementation 'ch.qos.logback:logback-classic:latest.release'
+  implementation 'ch.qos.logback:logback-core:latest.release'
+	
+  testCompileOnly 'org.projectlombok:lombok:latest.release'
+  testAnnotationProcessor 'org.projectlombok:lombok:latest.release'
+}
+
+mainClassName = 'venkat.systemdesign.cpdemo.ConnectionPoolDemoApp'
