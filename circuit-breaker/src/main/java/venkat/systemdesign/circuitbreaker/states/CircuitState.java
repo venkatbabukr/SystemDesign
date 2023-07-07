@@ -1,8 +1,9 @@
 package venkat.systemdesign.circuitbreaker.states;
 
 import venkat.systemdesign.circuitbreaker.model.CircuitStateCommonStats;
+import venkat.systemdesign.circuitbreaker.states.impl.StateName;
 
-public interface CircuitBreakerState {
+public interface CircuitState {
 
 	StateName getStateName();
 

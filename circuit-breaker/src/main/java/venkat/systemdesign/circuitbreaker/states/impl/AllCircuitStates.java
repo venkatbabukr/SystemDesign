@@ -1,18 +1,19 @@
-package venkat.systemdesign.circuitbreaker.states;
+package venkat.systemdesign.circuitbreaker.states.impl;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
 
 import venkat.systemdesign.circuitbreaker.CircuitBreaker;
-import venkat.systemdesign.circuitbreaker.model.CircuitStateCommonStats;
 import venkat.systemdesign.circuitbreaker.model.CircuitBreakerConfig.ClosedStateConfig;
 import venkat.systemdesign.circuitbreaker.model.CircuitBreakerConfig.HalfOpenStateConfig;
 import venkat.systemdesign.circuitbreaker.model.CircuitBreakerConfig.OpenStateConfig;
+import venkat.systemdesign.circuitbreaker.model.CircuitStateCommonStats;
+import venkat.systemdesign.circuitbreaker.states.CircuitState;
 
-public class CircuitBreakerStates {
+public class AllCircuitStates {
 
-	static abstract class AbstractCircuitBreakerState implements CircuitBreakerState {
+	static abstract class AbstractCircuitState implements CircuitState {
 		
 		protected StateName stateName;
 		
@@ -20,7 +21,7 @@ public class CircuitBreakerStates {
 		
 		protected CircuitStateCommonStats stateStats;
 
-		protected AbstractCircuitBreakerState(StateName sn, CircuitBreaker cb) {
+		protected AbstractCircuitState(StateName sn, CircuitBreaker cb) {
 			this.stateName = sn;
 			this.circuitBreaker = cb;
 		}
@@ -43,7 +44,7 @@ public class CircuitBreakerStates {
 
 	}
 
-	static class ClosedState extends AbstractCircuitBreakerState implements CircuitBreakerState {
+	static class ClosedState extends AbstractCircuitState implements CircuitState {
 
 		private ClosedStateConfig stateConfig;
 		
@@ -76,7 +77,7 @@ public class CircuitBreakerStates {
 
 	}
 
-	static class OpenState extends AbstractCircuitBreakerState implements CircuitBreakerState {
+	static class OpenState extends AbstractCircuitState implements CircuitState {
 
 		private OpenStateConfig stateConfig;
 		
@@ -111,7 +112,7 @@ public class CircuitBreakerStates {
 
 	}
 
-	static class HalfOpenState extends AbstractCircuitBreakerState implements CircuitBreakerState {
+	static class HalfOpenState extends AbstractCircuitState implements CircuitState {
 
 		private HalfOpenStateConfig stateConfig;
 

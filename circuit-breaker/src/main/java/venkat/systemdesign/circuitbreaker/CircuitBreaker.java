@@ -6,15 +6,16 @@ import venkat.systemdesign.circuitbreaker.model.CircuitStateCommonStats;
 import venkat.systemdesign.circuitbreaker.model.export.ApiProcessor;
 import venkat.systemdesign.circuitbreaker.model.export.ApiRequest;
 import venkat.systemdesign.circuitbreaker.model.export.ApiResponse;
-import venkat.systemdesign.circuitbreaker.states.CircuitBreakerState;
-import venkat.systemdesign.circuitbreaker.states.StateName;
+import venkat.systemdesign.circuitbreaker.states.CircuitState;
+import venkat.systemdesign.circuitbreaker.states.impl.CircuitStateFactoryImpl;
+import venkat.systemdesign.circuitbreaker.states.impl.StateName;
 
 @Getter
 public class CircuitBreaker {
 
 	private CircuitBreakerConfig config;
 	
-	private CircuitBreakerState activeState;
+	private CircuitState activeState;
 	
 	private ApiProcessor fallbackProcessor;
 
@@ -24,8 +25,8 @@ public class CircuitBreaker {
 		transitionTo(StateName.CLOSED, null);
 	}
 	
-	public void transitionTo(StateName newState, CircuitStateCommonStats oldStateStats) {
-		activeState = newState.getCbStateFactory().newStateImpl(this);
+	public void transitionTo(StateName newStateName, CircuitStateCommonStats oldStateStats) {
+		activeState = CircuitStateFactoryImpl.INSTANCE.newCircuitState(newStateName, this);
 		activeState.startState(oldStateStats);
 	}
 
