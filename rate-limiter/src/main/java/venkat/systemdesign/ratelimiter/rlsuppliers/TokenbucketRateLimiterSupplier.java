@@ -1,15 +1,15 @@
-package venkat.systemdesign.ratelimiter.rlfactories;
+package venkat.systemdesign.ratelimiter.rlsuppliers;
 
-import venkat.systemdesign.ratelimiter.RateLimiterFactory;
+import venkat.systemdesign.ratelimiter.RateLimiterSupplier;
 import venkat.systemdesign.ratelimiter.simplerls.TokenbucketRateLimiter;
 
-public class TokenbucketRateLimiterFactory implements RateLimiterFactory<TokenbucketRateLimiter> {
+public class TokenbucketRateLimiterSupplier implements RateLimiterSupplier<TokenbucketRateLimiter> {
 	
 	private long rlReplenishRate;
 	
 	private long rlBurstCapacity;
 	
-	public TokenbucketRateLimiterFactory(long rlReplRate, long rlBurstC) {
+	public TokenbucketRateLimiterSupplier(long rlReplRate, long rlBurstC) {
 		this.rlReplenishRate = rlReplRate;
 		this.rlBurstCapacity = rlBurstC;
 	}

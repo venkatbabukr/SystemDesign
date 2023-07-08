@@ -1,13 +1,13 @@
-package venkat.systemdesign.ratelimiter.rlfactories;
+package venkat.systemdesign.ratelimiter.rlsuppliers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.temporal.TemporalUnit;
 
 import venkat.systemdesign.ratelimiter.RateLimiter;
-import venkat.systemdesign.ratelimiter.RateLimiterFactory;
+import venkat.systemdesign.ratelimiter.RateLimiterSupplier;
 import venkat.systemdesign.ratelimiter.model.windowrls.WindowSize;
 
-public class WindowRateLimiterFactory<WRL extends RateLimiter> implements RateLimiterFactory<WRL> {
+public class WindowRateLimiterSupplier<WRL extends RateLimiter> implements RateLimiterSupplier<WRL> {
 
 	private long rlWindowCapacity;
 	
@@ -15,11 +15,11 @@ public class WindowRateLimiterFactory<WRL extends RateLimiter> implements RateLi
 	
 	Class<WRL> wrlClass;
 
-	public WindowRateLimiterFactory(long rlwc, long windowDuration, TemporalUnit durationUnit, Class<WRL> wrlClass) {
+	public WindowRateLimiterSupplier(long rlwc, long windowDuration, TemporalUnit durationUnit, Class<WRL> wrlClass) {
 		this(rlwc, new WindowSize(windowDuration, durationUnit), wrlClass);
 	}
 
-	public WindowRateLimiterFactory(long rlwc, WindowSize rlws, Class<WRL> wrlClass) {
+	public WindowRateLimiterSupplier(long rlwc, WindowSize rlws, Class<WRL> wrlClass) {
 		this.rlWindowCapacity = rlwc;
 		this.rlWindowSize = rlws;
 		this.wrlClass = wrlClass;

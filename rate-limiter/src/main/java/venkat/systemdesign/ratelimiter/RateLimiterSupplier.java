@@ -1,6 +1,6 @@
 package venkat.systemdesign.ratelimiter;
 
-public interface RateLimiterFactory<T extends RateLimiter> {
+public interface RateLimiterSupplier<T extends RateLimiter> {
 	
 	T newRateLimiter();
 

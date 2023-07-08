@@ -6,7 +6,7 @@ import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
  * For now, we have {@link LeakyBucketRateLimiter} extend this class. Consider other classes also
  * to extend this one if required later...
  */
-public abstract class BaseRateLimiter implements RateLimiter {
+public abstract class AbstractRateLimiter implements RateLimiter {
 	
 	protected long currentCapacity;
 

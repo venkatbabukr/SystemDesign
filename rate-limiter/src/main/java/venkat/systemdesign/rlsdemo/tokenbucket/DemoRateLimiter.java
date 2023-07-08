@@ -6,14 +6,14 @@ import java.util.concurrent.Executors;
 
 import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
 import venkat.systemdesign.ratelimiter.model.export.ApiResponse;
-import venkat.systemdesign.ratelimiter.rlfactories.TokenbucketRateLimiterFactory;
 import venkat.systemdesign.ratelimiter.rlfilters.RateLimitFilter;
+import venkat.systemdesign.ratelimiter.rlsuppliers.TokenbucketRateLimiterSupplier;
 
 public class DemoRateLimiter {
 
 	public static void main(String[] args) {
 		RateLimitFilter testRLFilter = new RateLimitFilter(
-		        new TokenbucketRateLimiterFactory(DemoConfig.TOKEN_REPLENISH_RATE,
+		        new TokenbucketRateLimiterSupplier(DemoConfig.TOKEN_REPLENISH_RATE,
 		                DemoConfig.BURST_CAPACITY));
 
 		int MAX_USERS = 2;

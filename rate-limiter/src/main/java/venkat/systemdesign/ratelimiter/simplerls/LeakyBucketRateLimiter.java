@@ -1,10 +1,10 @@
 package venkat.systemdesign.ratelimiter.simplerls;
 
-import venkat.systemdesign.ratelimiter.BaseRateLimiter;
+import venkat.systemdesign.ratelimiter.AbstractRateLimiter;
 import venkat.systemdesign.ratelimiter.RateLimiter;
 import venkat.systemdesign.ratelimiter.model.export.ApiRequest;
 
-public class LeakyBucketRateLimiter extends BaseRateLimiter implements RateLimiter {
+public class LeakyBucketRateLimiter extends AbstractRateLimiter implements RateLimiter {
 	
 	private long maxCapacity;
 	
