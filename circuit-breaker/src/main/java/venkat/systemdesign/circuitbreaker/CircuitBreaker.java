@@ -3,12 +3,12 @@ package venkat.systemdesign.circuitbreaker;
 import lombok.Getter;
 import venkat.systemdesign.circuitbreaker.model.CircuitBreakerConfig;
 import venkat.systemdesign.circuitbreaker.model.CircuitStateCommonStats;
-import venkat.systemdesign.circuitbreaker.model.export.ApiProcessor;
-import venkat.systemdesign.circuitbreaker.model.export.ApiRequest;
-import venkat.systemdesign.circuitbreaker.model.export.ApiResponse;
 import venkat.systemdesign.circuitbreaker.states.CircuitState;
 import venkat.systemdesign.circuitbreaker.states.impl.CircuitStateFactoryImpl;
 import venkat.systemdesign.circuitbreaker.states.impl.StateName;
+import venkat.systemdesign.common.model.ApiProcessor;
+import venkat.systemdesign.common.model.ApiRequest;
+import venkat.systemdesign.common.model.ApiResponse;
 
 @Getter
 public class CircuitBreaker {
@@ -36,9 +36,12 @@ public class CircuitBreaker {
 		if (activeState.permitRequest()) {
 			try {
 				proc.process(req, resp);
-				resp.setProcessedBy(proc);
-				requestProcessed = true;
-				activeState.onSuccess();
+				requestProcessed = resp.isProcessSuccess();
+				if (requestProcessed) {
+					activeState.onSuccess();
+				} else {
+					activeState.onFailure();
+				}
 			} catch (RuntimeException e) {
 				activeState.onFailure();
 			}
@@ -46,7 +49,6 @@ public class CircuitBreaker {
 		if (!requestProcessed) {
 			// In all cases of request not processed
 			fallbackProcessor.process(req, resp);
-			resp.setProcessedBy(fallbackProcessor);
 		}
 		return resp;
 	}

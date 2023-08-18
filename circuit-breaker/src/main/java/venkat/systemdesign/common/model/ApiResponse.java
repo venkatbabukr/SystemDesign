@@ -1,4 +1,4 @@
-package venkat.systemdesign.circuitbreaker.model.export;
+package venkat.systemdesign.common.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -10,10 +10,13 @@ public class ApiResponse {
 	@Setter(value = AccessLevel.NONE)
 	private ApiRequest request;
 
-	private ApiProcessor processedBy;
-	
+	private boolean processSuccess;
+
+	private String processedBy;
+
 	public ApiResponse(ApiRequest req) {
 		this.request = req;
+		this.processSuccess = false;
 	}
 	
 }

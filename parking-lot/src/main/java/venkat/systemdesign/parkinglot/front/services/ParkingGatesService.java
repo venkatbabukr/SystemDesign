@@ -26,7 +26,7 @@ public class ParkingGatesService {
 	private ParkingTokensRepo tokensRepo;
 
 	public ParkingToken enterVehicleIntoParking(long entryGateNumber, Vehicle v) throws ParkingFullException {
-		ParkingSpot parkingSpot = parkManager.searchAndAcquireParkingSpot(v.getType()).orElseThrow(ParkingFullException::new);
+		ParkingSpot parkingSpot = parkManager.searchAndAcquireParkingSpot(v.getType());
 		return ParkingToken.builder()
 				.entryGateNumber(entryGateNumber)
 				.parkingSpot(parkingSpot)
@@ -36,10 +36,11 @@ public class ParkingGatesService {
 	}
 
 	public void exitVehicleFromParking(long exitGateNumber, ParkingToken token) {
+		parkManager.releaseParkingSpot(token.getParkingSpot());
+
 		LocalDateTime exitTime = LocalDateTime.now();
 		double totalFare = fareCalculator.calculateFare(token.getVehicle().getType(), token.getIntime(), exitTime);
 		token.setExitGateNumber(exitGateNumber).setOuttime(exitTime).setTotalFare(totalFare);
-		parkManager.releaseParkingSpot(token.getParkingSpot());
 		tokensRepo.save(token);
 	}
 

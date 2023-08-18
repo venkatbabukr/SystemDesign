@@ -1,9 +1,11 @@
-package venkat.systemdesign.circuitbreaker.model.export;
+package venkat.systemdesign.common.model;
 
 public interface ApiProcessor {
 
-	String getName();
-
 	void process(ApiRequest req, ApiResponse resp) throws RuntimeException;
+
+	default String getName() {
+		return this.getClass().getName();
+	}
 
 }

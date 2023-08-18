@@ -1,4 +1,4 @@
-package venkat.systemdesign.circuitbreaker.model.export;
+package venkat.systemdesign.common.model;
 
 import java.time.Instant;
 

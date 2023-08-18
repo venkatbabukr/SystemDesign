@@ -43,10 +43,20 @@ public class ParkingSpace implements Comparable<ParkingSpace> {
 		return !freeSlotsQueue.isEmpty();
 	}
 
-	public synchronized Optional<ParkingSpot> borrowFreeSpot() {
+	/*
+	 * Since we are doing freeSlotsQueue.remove(), this method can throw IllegalStateException
+	 * if not used properly...
+	 */
+//	public synchronized ParkingSpot acquireFreeSpot() {
+//		Integer freeSlot = freeSlotsQueue.remove();
+//		return new ParkingSpot(this.id, freeSlot);
+//	}
+
+	public synchronized ParkingSpot pollFreeSpot() {
 		Integer freeSlot = freeSlotsQueue.poll();
 		return Optional.ofNullable(freeSlot)
-		        .map(slotNum -> new ParkingSpot(this.id, slotNum));
+		        .map(slotNum -> new ParkingSpot(this.id, slotNum))
+		        .orElse(null);
 	}
 
 	public void returnFreeSpot(ParkingSpot spot) {

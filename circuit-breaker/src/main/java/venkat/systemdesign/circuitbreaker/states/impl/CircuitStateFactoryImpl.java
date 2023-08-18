@@ -12,19 +12,11 @@ public enum CircuitStateFactoryImpl implements CircuitStateFactory {
 
 	@Override
 	public CircuitState newCircuitState(StateName stateName, CircuitBreaker cb) {
-		CircuitState newState = null;
-		switch (stateName) {
-			case CLOSED:
-				newState = new ClosedState(cb, cb.getConfig().getClosedStateCfg());
-				break;
-			case HALF_OPEN:
-				newState = new HalfOpenState(cb, cb.getConfig().getHalfOpenStateCfg());
-				break;
-			case OPEN:
-				newState = new OpenState(cb, cb.getConfig().getOpenStateCfg());
-				break;
-		}
-		return newState;
+		return switch (stateName) {
+			case CLOSED -> new ClosedState(cb, cb.getConfig().getClosedStateCfg());
+			case HALF_OPEN -> new HalfOpenState(cb, cb.getConfig().getHalfOpenStateCfg());
+			case OPEN -> new OpenState(cb, cb.getConfig().getOpenStateCfg());
+		};
 	}
 
 }

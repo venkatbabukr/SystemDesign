@@ -1,0 +1,6 @@
+rootProject.name='SystemDesign'
+
+include 'circuit-breaker'
+include 'connection-pool'
+include 'parking-lot'
+include 'rate-limiter'

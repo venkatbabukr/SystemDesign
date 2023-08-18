@@ -8,10 +8,13 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import venkat.systemdesign.parkinglot.common.enums.VehicleType;
 import venkat.systemdesign.parkinglot.core.model.ParkingSpace;
 import venkat.systemdesign.parkinglot.core.model.ParkingSpot;
 
+@Component
 public class ParkingLotRepo {
 	
 	private Map<UUID, ParkingSpace> spacesById;
@@ -28,13 +31,25 @@ public class ParkingLotRepo {
 		return Optional.ofNullable(spacesByType.get(vehicleType));
 	}
 	
-	public Optional<ParkingSpace> getParkingSpace(UUID spaceId) {
-		return Optional.ofNullable(spacesById.get(spaceId));
+	public ParkingSpace getParkingSpace(UUID spaceId) {
+		return spacesById.get(spaceId);
 	}
 
-	public void freeParkingSpot(VehicleType spaceType, ParkingSpot spot) {
-		Optional.ofNullable(spacesById.get(spot.getParkingSpaceId()))
-			.ifPresent(space -> space.returnFreeSpot(spot));
+	public ParkingSpot pollParkingSpot(VehicleType spaceType) {
+		return Optional.ofNullable(spacesByType.get(spaceType))
+					.flatMap(parkingSpaces -> parkingSpaces.stream().filter(ParkingSpace::isAvailable).findFirst())
+					.map(space -> space.pollFreeSpot())
+					.orElse(null);
+	}
+
+	public boolean releaseParkingSpot(ParkingSpot spot) {
+		boolean parkingReleased = false;
+		ParkingSpace space = getParkingSpace(spot.getParkingSpaceId());
+		if (space != null) {
+			space.returnFreeSpot(spot);
+			parkingReleased = true;
+		}
+		return parkingReleased;
 	}
 
 }
